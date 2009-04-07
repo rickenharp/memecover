@@ -15,7 +15,7 @@ puts "Album: #{albumname}"
 
 
 flickrdoc = Hpricot(open("http://www.flickr.com/explore/interesting/7days/"))
-image_element = flickrdoc.search("//img[@class='pc_img']")[2].attributes["src"]
+image_element = flickrdoc.search("//img[@class='pc_img']")[2].attributes["src"].gsub("_m.jpg",".jpg")
 puts "Image: #{image_element}"
 
 
@@ -23,16 +23,18 @@ image = Magick::ImageList.new(image_element)
 text = Magick::Draw.new
 text.annotate(image, 0, 0, 0, 0, bandname) {
     self.gravity = Magick::NorthWestGravity
-    self.pointsize = 16
+    self.pointsize = 26
     self.stroke = 'transparent'
-    self.fill = '#FF0000'
+    self.fill = '#FFFFFF'
+    self.stroke = '#000000'
     self.font_weight = Magick::BoldWeight
     }
 text.annotate(image, 0, 0, 0, 0, albumname) {
     self.gravity = Magick::SouthEastGravity
-    self.pointsize = 14
+    self.pointsize = 22
     self.stroke = 'transparent'
-    self.fill = '#FF0000'
+    self.fill = '#FFFFFF'
+    self.stroke = '#000000'
     self.font_weight = Magick::BoldWeight
     }
 filename = "#{bandname.downcase.gsub(/[^a-z]/,"_")}-#{albumname.downcase.gsub(/[^a-z]/,"_")}.jpg"
